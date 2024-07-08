@@ -18,4 +18,7 @@ There are 2 workflows baked into this pipeline, one which uses signal data (via 
 ## Installation
 Guidance on the installation of the Pipeline can be found at the author's github page: https://github.com/artic-network/fieldbioinformatics
 
+## Usage
 Documentation of the pipeline can be found at: http://artic.readthedocs.io/en/latest/?badge=latest
+
+## Code
