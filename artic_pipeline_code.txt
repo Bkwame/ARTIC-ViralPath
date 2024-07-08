@@ -1,0 +1,65 @@
+
+
+################################# ARTIC FieldBioinformatics Pipeline #########################################
+
+## Aligns nanopore sequencing reads (mapping and sorting of reads using minimap2 and samtools, respectively)
+minimap2 -a -x map-ont -t 4 <path/to/ref.fasta> <sample_id>_guppyplex_fastq_pass-<barcode>.fastq | samtools view -bS -F 4 - | samtools sort -o <sample_id>.sorted.bam
+
+## Creates an index for the sorted BAM file
+samtools index <sample_id>.sorted.bam
+
+## Trim to start of alignments using given amplicon scheme
+align_trim --normalise 200 <path/to/amplicon_bed> --start --remove-incorrect-pairs --report <sample_id>.alignreport.txt < <sample_id>.sorted.bam 2> <sample_id>.alignreport.er | samtools sort -T <sample_id> - -o <sample_id>.trimmed.rg.sorted.bam
+
+## Trim alignments using given amplicon scheme (without the start of alignment)
+align_trim --normalise 200 <path/to/amplicon_bed> --remove-incorrect-pairs --report <sample_id>.alignreport.txt < <sample_id>.sorted.bam 2> <sample_id>.alignreport.er | samtools sort -T <sample_id> - -o <sample_id>.primertrimmed.rg.sorted.bam
+
+## Create indexes for the trimmed BAM files
+samtools index <sample_id>.trimmed.rg.sorted.bam
+samtools index <sample_id>.primertrimmed.rg.sorted.bam
+
+## Generate consensus sequences from the trimmed BAM file using a specified model
+medaka consensus --model <model> --threads 4 --chunk_len 800 --chunk_ovlp 400 --RG 1 <sample_id>.trimmed.rg.sorted.bam <sample_id>.1.hdf
+medaka consensus --model <model> --threads 4 --chunk_len 800 --chunk_ovlp 400 --RG 2 <sample_id>.trimmed.rg.sorted.bam <sample_id>.2.hdf
+
+## Call variants from the consensus sequences using the reference genome
+medaka variant <path/to/ref.fasta> <sample_id>.1.hdf <sample_id>.1.vcf
+medaka variant <path/to/ref.fasta> <sample_id>.2.hdf <sample_id>.2.vcf
+
+## Merge vcf files generated from the different read groups (primer pools) into one single vcf file
+artic_vcf_merge <sample_id> <path/to/amplicon_bed> 2> <sample_id>.primersitereport.txt 1:<sample_id>.1.vcf 2:<sample_id>.2.vcf
+
+## bgzip compresses the merged vcf file and tabix indexes the compressed vcf file for efficient querying
+bgzip -f <sample_id>.merged.vcf
+tabix -f -p vcf <sample_id>.merged.vcf.gz
+
+## Variants from the BAM file are called using the reference genome
+longshot -P 0 -F -A --no_haps --bam <sample_id>.primertrimmed.rg.sorted.bam --ref <path/to/ref.fasta> --out <sample_id>.merged.vcf --potential_variants <sample_id>.merged.vcf.gz
+
+## Variants are filtered in the merged vcf file, separating them into passing and failing variants
+artic_vcf_filter --medaka <sample_id>.merged.vcf <sample_id>.pass.vcf <sample_id>.fail.vcf
+
+## The filtered vcf file is compressed and indexed
+bgzip -f <sample_id>.pass.vcf
+tabix -p vcf <sample_id>.pass.vcf.gz
+
+## A coverage mask from the BAM file is created using the reference genome
+artic_make_depth_mask --store-rg-depths <path/to/ref.fasta> <sample_id>.primertrimmed.rg.sorted.bam <sample_id>.coverage_mask.txt
+
+## The coverage mask and failing variants are applied to the reference genome to produce a pre-consensus fasta file
+artic_mask /home/bioinformatics-7/fieldbioinformatics/primer-schemes/il17a/V1/il17a.reference.fasta <sample_id>.coverage_mask.txt <sample_id>.fail.vcf <sample_id>.preconsensus.fasta
+
+## A consensus sequence is created from the pre-consensus fasta file and the passing vcf file
+bcftools consensus -f <sample_id>.preconsensus.fasta <sample_id>.pass.vcf.gz -m <sample_id>.coverage_mask.txt -o <sample_id>.consensus.fasta
+
+## A descriptive header is added to the consensus fasta file
+artic_fasta_header <sample_id>.consensus.fasta "<sample_id>/ARTIC/medaka"
+
+## The consensus fasta file and reference fasta file are concatenated to create an input file for muscle (a multiple sequence aligner)
+cat <sample_id>.consensus.fasta <path/to/ref.fasta> > <sample_id>.muscle.in.fasta
+
+## Muscle aligns the sequences
+muscle -in <sample_id>.muscle.in.fasta -out <sample_id>.muscle.out.fasta
+
+
+
