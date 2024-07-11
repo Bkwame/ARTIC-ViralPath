@@ -1,5 +1,5 @@
 Viral Pipeline Analysis Project
-==============================
+===============================
 A project based analysis using the Artic Fieldbioinformatics Pipeline for viral pathogen analysis.
 
 Contents
@@ -28,13 +28,12 @@ There are 2 workflows baked into this pipeline, one which uses signal data (via 
 
 Installation
 ============
-Guidance on the installation of the Pipeline can be found at the author's github page: https://github.com/artic-network/fieldbioinformatics
+Guidance on the installation of the Pipeline can be found at the author's github page: The [artic-network](https://github.com/artic-network/fieldbioinformatics)
 
 Usage
 =====
-Documentation of the pipeline can be found at: http://artic.readthedocs.io/en/latest/?badge=latest
+Documentation of the pipeline can be found at: [artic docs](http://artic.readthedocs.io/en/latest/?badge=latest)
 
 Getting Started
 ===============
-
-### Data Preparation
+## Data Preparation
