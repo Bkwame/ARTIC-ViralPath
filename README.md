@@ -1,6 +1,9 @@
 # Viral Pipeline Analysis Project
 A project based analysis using the Artic Fieldbioinformatics Pipeline for viral pathogen analysis.
 
+## Contents
+
+
 ## About the Artic Pipeline
 artic is a pipeline and set of accompanying tools for working with viral nanopore sequencing data, generated from tiling amplicon schemes.
 
@@ -21,4 +24,6 @@ Guidance on the installation of the Pipeline can be found at the author's github
 ## Usage
 Documentation of the pipeline can be found at: http://artic.readthedocs.io/en/latest/?badge=latest
 
-## Code
+## Getting Started
+### Files Preparation
+To begin working with the 
