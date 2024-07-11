@@ -9,7 +9,7 @@ Contents
 * [Installation](#installation)
 * [Usage](#usage)
 * [Getting Started](#getting-started)
-      - [Data Preparation](#data-preparation)
+  * [Data Preparation](#data-preparation)
 
 About the Artic Pipeline
 ========================
