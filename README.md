@@ -2,6 +2,7 @@ Viral Pipeline Analysis Project
 ===============================
 A project-based analysis using the Artic Fieldbioinformatics Pipeline for viral pathogen analysis.
 
+
 Contents
 ========
 
@@ -16,6 +17,7 @@ Contents
       * [Primer Scheme](#primer-scheme)
          * [Virus-name.reference.fasta Structure](#virus-namereferencefasta-structure)
          * [Virus-name.scheme.bed Structure](#virus-nameschemebed-structure)
+
 
 About the Artic Pipeline
 ========================
