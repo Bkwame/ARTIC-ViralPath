@@ -1,6 +1,5 @@
 
-
-################################# ARTIC FieldBioinformatics Pipeline #########################################
+################################################################################### ARTIC Minion Command #############################################################################################################
 
 ## Aligns nanopore sequencing reads (mapping and sorting of reads using minimap2 and samtools, respectively)
 minimap2 -a -x map-ont -t 4 <path/to/ref.fasta> <sample_id>_guppyplex_fastq_pass-<barcode>.fastq | samtools view -bS -F 4 - | samtools sort -o <sample_id>.sorted.bam
@@ -60,6 +59,4 @@ cat <sample_id>.consensus.fasta <path/to/ref.fasta> > <sample_id>.muscle.in.fast
 
 ## Muscle aligns the sequences
 muscle -in <sample_id>.muscle.in.fasta -out <sample_id>.muscle.out.fasta
-
-
 
