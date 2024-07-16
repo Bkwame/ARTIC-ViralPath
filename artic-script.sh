@@ -19,7 +19,7 @@ maxLength=1200
 threads=4
 
 # Samplesheet path
-samplesheet=$inputData/samplesheet.csv
+samplesheet=${inputData}/samplesheet.csv
 
 # Read the samplesheet and process each sample (into the while loop)
 while IFS=, read -r sample_id barcode
