@@ -1,6 +1,6 @@
-Viral Pipeline Analysis Project
-===============================
-A project-based analysis using the `Artic` Fieldbioinformatics Pipeline for viral pathogen analysis.
+ARTIC Viral Pipeline Analysis Project
+===================================
+A project-based analysis using the `Artic Fieldbioinformatics Pipeline` for viral pathogen analysis.
 
 
 Contents
