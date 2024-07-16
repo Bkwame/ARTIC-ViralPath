@@ -15,8 +15,8 @@ Contents
       * [Sequenced Data](#sequenced-data)
       * [Samplesheet](#samplesheet)
       * [Primer Scheme](#primer-scheme)
-         * [Virus-name.reference.fasta Structure](#virus-namereferencefasta-structure)
-         * [Virus-name.scheme.bed Structure](#virus-nameschemebed-structure)
+         * [Primer Scheme Reference (.reference.fasta) Structure](#primer-scheme-reference-referencefasta-structure)
+         * [Primer Scheme Bed (.scheme.bed) Structure](#primer-scheme-bed-schemebed-structure)
 
 
 About the Artic Pipeline
